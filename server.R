@@ -484,7 +484,7 @@ server <- function(input, output, session) {
     gt(field_data) %>%
       tab_header(
         title = md("Manpower Expense Comparisions"),
-        subtitle = md("A tabulation of current expenses and `MindShift` impact")
+        subtitle = md("A tabulation of current expenses and `Mindshift` impact")
       ) %>%
       cols_label(
         FTE = "Roles",
@@ -508,7 +508,7 @@ server <- function(input, output, session) {
         locations = cells_column_spanners(spanners = "Current State")
       ) %>%
       tab_spanner(
-        label="MindShift's Solution Impact",
+        label="Mindshift's Solution Impact",
         columns = vars(reduced_Count,future_Count,future_Cost)
       ) %>%
       tab_style(
@@ -516,7 +516,7 @@ server <- function(input, output, session) {
           cell_fill(color = "orange"),
           cell_text(weight = "bold")
         ),
-        locations = cells_column_spanners(spanners = "MindShift's Solution Impact")
+        locations = cells_column_spanners(spanners = "Mindshift's Solution Impact")
       )  %>%
       
       # adding styling to cells and borders
@@ -721,8 +721,8 @@ server <- function(input, output, session) {
       paste("<b>",format_indian(pilferage_values()$under_reporting_yearly),"Litres</b> of Fuel currently Under-reported")
     )
     saved_explanation <- c(
-      paste("Savings of <b>",format_indian(pilferage_values()$saving_ftheft),"Litres</b> of Fuel after MindShift Under-reported"),
-      paste("Savings of <b>",format_indian(pilferage_values()$saving_ur),"Litres</b> of Fuel after MindShift Under-reported")
+      paste("Savings of <b>",format_indian(pilferage_values()$saving_ftheft),"Litres</b> of Fuel after Mindshift Under-reported"),
+      paste("Savings of <b>",format_indian(pilferage_values()$saving_ur),"Litres</b> of Fuel after Mindshift Under-reported")
     )
     
     # Create bar plot using ggplot2
@@ -863,7 +863,7 @@ server <- function(input, output, session) {
     gt(field_data) %>%
       tab_header(
         title = md("Consumption Comparisions"),
-        subtitle = md("A tabulation of consumption change by `MindShift` impact")
+        subtitle = md("A tabulation of consumption change by `Mindshift` impact")
       ) %>%
       cols_label(
         Metrics = "Metrics",
@@ -981,7 +981,7 @@ server <- function(input, output, session) {
       value = c(idle_total()$idling_ldp, idle_total()$idle_mod_consump_lpd),
       explanation = c(
         paste("Originally <b>",idle_total()$idling_ldp," litres</b> of fuel is consumed per day"),
-        paste("After MindShift <b>",idle_total()$idle_mod_consump_lpd," litres</b> of fuel is consumed per day"))
+        paste("After Mindshift <b>",idle_total()$idle_mod_consump_lpd," litres</b> of fuel is consumed per day"))
     )
     
     gg <- ggplot(data, aes(y = title, x = value, fill = type, text=explanation)) +
@@ -1075,7 +1075,7 @@ server <- function(input, output, session) {
       paste("Value saved from ManPower: <b>₹",format_indian(mp_sum),"/-</b>"),
       paste("Value saved from Pilferage: <b>₹",format_indian(pl_sum),"/-</b>"),
       paste("Value saved from Idling: <b>₹",format_indian(idle_sum),"/-</b>"),
-      paste("Yearly Savings by using <b>MindShift:  ₹",format_indian(mp_sum + pl_sum + idle_sum),"/-</b>")
+      paste("Yearly Savings by using <b>Mindshift:  ₹",format_indian(mp_sum + pl_sum + idle_sum),"/-</b>")
     )
     
     data <- data.frame(

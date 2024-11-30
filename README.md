@@ -12,4 +12,4 @@ For support or further information, please contact:
 
 Bhargav Kowshik
 
-Email: [bhargav\@mindshiftapps.net](mailto:bhargav@mindshiftapps.net){.email}
+Email: [bhargav\@Mindshiftapps.net](mailto:bhargav@Mindshiftapps.net){.email}
