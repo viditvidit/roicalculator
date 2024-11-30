@@ -56,6 +56,11 @@ ui <- shinyUI(fluidPage(
           font-size: 24px;
           margin: 0;
       }
+      .btn-info {
+              background-color: #008000 !important; /* Green background */
+              color: white !important; /* White text */
+              border-color: #2e6da4 !important; /* Green border */
+      }
     "))
   ),
   
@@ -90,7 +95,7 @@ ui <- shinyUI(fluidPage(
                           fluidRow(
                             column(12,
                                    div(
-                                     fluidRow(column(9,h3("Step 1: Enter FTE Details")),column(3,div(class="right-align",br(),actionButton("manpower_info_button", "Info", icon = icon("info-circle"))))),
+                                     fluidRow(column(9,h3("Step 1: Enter FTE Details")),column(3,div(class="right-align",br(),actionButton("manpower_info_button", "Info", icon = icon("info-circle"), class = "btn-info")))),
                                      radioButtons("manpower_dispatch_q","Do you have Fuel Dispatchers for scheduling Fuel Bowser Trips?",
                                                   choices = c("Yes" = TRUE, "No" = FALSE),
                                                   inline = TRUE),
@@ -112,7 +117,7 @@ ui <- shinyUI(fluidPage(
                           fluidRow(
                             column(12,
                                    div(
-                                     fluidRow(column(9,h3(" Step 2: CTC Input")),column(3,div(class="right-align",br(),actionButton("manpower_ctc_info_button", "Info", icon = icon("info-circle"))))),
+                                     fluidRow(column(9,h3(" Step 2: CTC Input")),column(3,div(class="right-align",br(),actionButton("manpower_ctc_info_button", "Info", icon = icon("info-circle"), class = "btn-info")))),
                                      
                                      sliderInput("fuel_dispatcher_cost","Avg Annual CTC of Fuel Dispatcher: ",value=500000,min=100000,max=1000000),
                                      sliderInput("fuel_logger_cost","Avg Annual CTC of Fuel Logger: ",,value=150000,min=100000,max=300000),
@@ -141,8 +146,8 @@ ui <- shinyUI(fluidPage(
                                  
                                  splitLayout(verbatimTextOutput("manpower_fte_total"),
                                              verbatimTextOutput("manpower_pte_total")),
-                                 h3("How you can acheive savings with Mindshift:"),
-                                 p("Mindshift offers the capability to automate manual data entry, updates, and analysis processes, facilitating a transition to a time-efficient fuel management method.\n
+                                 h3("How you can acheive savings with MindShift:"),
+                                 p("MindShift offers the capability to automate manual data entry, updates, and analysis processes, facilitating a transition to a time-efficient fuel management method.\n
                                    This transition leads to cost savings and increased productivity for your organization.")),
                         )
                         )
@@ -184,7 +189,7 @@ ui <- shinyUI(fluidPage(
                         fluidRow(
                           column(9,
                                  fluidRow(column(6,h3("Monitoring Pilferage Fuel Loss")),
-                                          column(6, br(), div(class = "right-align", actionButton("pilferage_info_button", "Info", icon = icon("info-circle"))))
+                                          column(6, br(), div(class = "right-align", actionButton("pilferage_info_button", "Info", icon = icon("info-circle"), class = "btn-info")))
                                  ),
                                  fluidRow(
                                    column(width=6,
@@ -232,7 +237,7 @@ ui <- shinyUI(fluidPage(
                                  verbatimTextOutput("pilferage_explanation"),
                                  h5("Fuel Savings (₹)"),
                                  verbatimTextOutput("pilferage_cost"),
-                                 h4("How you can acheive savings with Mindshift:"),
+                                 h4("How you can acheive savings with MindShift:"),
                                  tags$ul(
                                    tags$li(
                                      h5("Real-Time Monitoring:"),
@@ -299,7 +304,7 @@ ui <- shinyUI(fluidPage(
                                                      h4("Graphical Understanding:"),
                                                      p("In the realm of heavy equipment and machinery management,
                                                                      the initial bar denotes the daily fuel consumption per Heavy Earth Moving Machinery (HEMM).
-                                                                     However, after investing in Mindshift Analytics,
+                                                                     However, after investing in MindShift Analytics,
                                                                      one gains the capability to meticulously track and mitigate idle durations,
                                                                      consequently reducing consumption metrics and enhancing operational efficiency.")))),
                         mainPanel(width=6,fluidPage(column(8,fluidRow(column(6,h5("Total Utilisation Hours"),
@@ -322,7 +327,7 @@ ui <- shinyUI(fluidPage(
                         column(4,fluidRow(column(12,h5("Yearly Savings:"),
                                                  verbatimTextOutput("idle_yearly_value"))),
                                fluidRow(column(12,
-                                               h3("How you can achieve savings with Mindshift:"),
+                                               h3("How you can achieve savings with MindShift:"),
                                                p("A reduction of even 1 liter per HEMM in fuel consumption, when applied to all HEMM over 365 days, results in a substantial savings.")
                                )
                                )
@@ -435,3 +440,4 @@ ui <- shinyUI(fluidPage(
   )
 )
 )
+
