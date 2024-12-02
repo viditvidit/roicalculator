@@ -22,6 +22,13 @@ server <- function(input, output, session) {
   
   # values-reactive Values relevant across all calculations put in a reactive for easier access
   values <- reactive({
+    req(input$shift_count)
+    req(input$fuel_entry_count)
+    req(input$hmm_count)
+    req(input$hmm_daily_consum)
+    req(input$truck_count)
+    req(input$logger_count_per_browser)
+
     #checking input to prevent crashes
     req(!is.null(input$shift_count), input$shift_count != 0)
     # these variables are out since they are being used for calculation in data frame
