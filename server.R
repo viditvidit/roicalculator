@@ -23,6 +23,8 @@ server <- function(input, output, session) {
   # values-reactive Values relevant across all calculations put in a reactive for easier access
   values <- reactive({
     req(all(!is.null(c(input$hemm_count, input$hemm_daily_consump, input$truck_count, input$logger_count_per_bowser)))) 
+    #checking input to prevent crashes
+    req(!is.null(input$shift_count), input$shift_count != 0)
 
     # these variables are out since they are being used for calculation in data frame
     # data frame scope prevents creation and usage in the same scope hence outside creation
