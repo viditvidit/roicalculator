@@ -146,8 +146,10 @@ ui <- shinyUI(fluidPage(
                                  
                                  splitLayout(verbatimTextOutput("manpower_fte_total"),
                                              verbatimTextOutput("manpower_pte_total")),
-                                 h3("How you can acheive savings with MindShift:"),
-                                 p("MindShift offers the capability to automate manual data entry, updates, and analysis processes, facilitating a transition to a time-efficient fuel management method.\n
+
+                                 h3("How you can achieve savings with Mindshift:"),
+                                 p("Mindshift offers the capability to automate manual data entry, updates, and analysis processes, facilitating a transition to a time-efficient fuel management method.\n
+
                                    This transition leads to cost savings and increased productivity for your organization.")),
                         )
                         )
@@ -204,7 +206,7 @@ ui <- shinyUI(fluidPage(
                                           )
                                    ),
                                    column(width=6,
-                                          h4("Refuellings/HEMM/month"),
+                                          h4("refuelings/HEMM/month"),
                                           verbatimTextOutput("refuels_per_month"))
                                  ),
                                  fluidRow(column(width = 4,
@@ -237,7 +239,10 @@ ui <- shinyUI(fluidPage(
                                  verbatimTextOutput("pilferage_explanation"),
                                  h5("Fuel Savings (₹)"),
                                  verbatimTextOutput("pilferage_cost"),
-                                 h4("How you can acheive savings with MindShift:"),
+
+                                 
+                                 h4("How you can achieve savings with Mindshift:"),
+
                                  tags$ul(
                                    tags$li(
                                      h5("Real-Time Monitoring:"),
@@ -287,7 +292,7 @@ ui <- shinyUI(fluidPage(
                       sidebarLayout(
                         sidebarPanel(width=6,fluidRow(column(6,
                                                              numericInput("idle_usage_per","Effective utilization percentage?",min=-10,max=100,value=60)),
-                                                      column(6,numericInput("idle_load_perc","Loaded state percentage during utilisation",min=-10,max=99,value=70))),
+                                                      column(6,numericInput("idle_load_perc","Loaded state percentage during utilization",min=-10,max=99,value=70))),
                                      fluidRow(column(6,
                                                      h5("Total Time in Consideration"),
                                                      verbatimTextOutput("idle_total_time")),
@@ -307,7 +312,7 @@ ui <- shinyUI(fluidPage(
                                                                      However, after investing in MindShift Analytics,
                                                                      one gains the capability to meticulously track and mitigate idle durations,
                                                                      consequently reducing consumption metrics and enhancing operational efficiency.")))),
-                        mainPanel(width=6,fluidPage(column(8,fluidRow(column(6,h5("Total Utilisation Hours"),
+                        mainPanel(width=6,fluidPage(column(8,fluidRow(column(6,h5("Total utilization Hours"),
                                                                              verbatimTextOutput("idle_util_hours")),
                                                                       column(6,h5("Total Off Hours"),
                                                                              verbatimTextOutput("idle_off_hours"))),
@@ -376,7 +381,7 @@ ui <- shinyUI(fluidPage(
              #            ),
              #            fluidRow(
              #              column(3,numericInput("movable_hemm_count","Number of movable Hemm",value=50)),
-             #              column(width=3,numericInput("movable_percent_get","% of refuellings from SFS",value=20)),
+             #              column(width=3,numericInput("movable_percent_get","% of refuelings from SFS",value=20)),
              #              column(width=3,numericInput("movable_get_time","Time Spent in each trip",value=1)),
              #              column(width=3,numericInput("movable_hemm_price","Enter price of HEMM/hour",value=1500)),
              #
@@ -387,7 +392,7 @@ ui <- shinyUI(fluidPage(
              #                                     h3("Number of refuels/annually"),
              #                                     verbatimTextOutput("movable_refuel_sumannual")),
              #                              column(width=3,
-             #                                     h3("Total self refeulling time"),
+             #                                     h3("Total self refueling time"),
              #                                     verbatimTextOutput("movable_time_spent")),
              #                              fluidRow(
              #                                column(width=5,
