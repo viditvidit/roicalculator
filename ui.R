@@ -146,8 +146,8 @@ ui <- shinyUI(fluidPage(
                                  
                                  splitLayout(verbatimTextOutput("manpower_fte_total"),
                                              verbatimTextOutput("manpower_pte_total")),
-                                 h3("How you can achieve savings with MindShift:"),
-                                 p("MindShift offers the capability to automate manual data entry, updates, and analysis processes, facilitating a transition to a time-efficient fuel management method.\n
+                                 h3("How you can achieve savings with Mindshift:"),
+                                 p("Mindshift offers the capability to automate manual data entry, updates, and analysis processes, facilitating a transition to a time-efficient fuel management method.\n
                                    This transition leads to cost savings and increased productivity for your organization.")),
                         )
                         )
@@ -237,7 +237,7 @@ ui <- shinyUI(fluidPage(
                                  verbatimTextOutput("pilferage_explanation"),
                                  h5("Fuel Savings (₹)"),
                                  verbatimTextOutput("pilferage_cost"),
-                                 h4("How you can achieve savings with MindShift:"),
+                                 h4("How you can achieve savings with Mindshift:"),
                                  tags$ul(
                                    tags$li(
                                      h5("Real-Time Monitoring:"),
@@ -304,7 +304,7 @@ ui <- shinyUI(fluidPage(
                                                      h4("Graphical Understanding:"),
                                                      p("In the realm of heavy equipment and machinery management,
                                                                      the initial bar denotes the daily fuel consumption per Heavy Earth Moving Machinery (HEMM).
-                                                                     However, after investing in MindShift Analytics,
+                                                                     However, after investing in Mindshift Analytics,
                                                                      one gains the capability to meticulously track and mitigate idle durations,
                                                                      consequently reducing consumption metrics and enhancing operational efficiency.")))),
                         mainPanel(width=6,fluidPage(column(8,fluidRow(column(6,h5("Total utilization Hours"),
@@ -327,7 +327,7 @@ ui <- shinyUI(fluidPage(
                         column(4,fluidRow(column(12,h5("Yearly Savings:"),
                                                  verbatimTextOutput("idle_yearly_value"))),
                                fluidRow(column(12,
-                                               h3("How you can achieve savings with MindShift:"),
+                                               h3("How you can achieve savings with Mindshift:"),
                                                p("A reduction of even 1 liter per HEMM in fuel consumption, when applied to all HEMM over 365 days, results in a substantial savings.")
                                )
                                )
