@@ -1,3 +1,9 @@
+# Ensure the latest version of gt is installed
+if (!require("gt") || packageVersion("gt") < "0.3.0") {
+  install.packages("gt")
+}
+
+# Load libraries
 library(shiny)
 library(DT)
 library(ggplot2)
@@ -5,6 +11,7 @@ library(plotly)
 library(stringr)
 library(scales)
 library(gt)
+
 options(scipen = 999)
 
 server <- function(input, output, session) {
@@ -502,7 +509,7 @@ server <- function(input, output, session) {
       # adding column spanner and styling
       tab_spanner(
         label="Current State",
-        columns = vars(current_Count,current_Cost)
+        columns = c(current_Count,current_Cost)
       ) %>%
       tab_style(
         style = list(
@@ -513,7 +520,7 @@ server <- function(input, output, session) {
       ) %>%
       tab_spanner(
         label="Mindshift's Solution Impact",
-        columns = vars(reduced_Count,future_Count,future_Cost)
+        columns = c(reduced_Count,future_Count,future_Cost)
       ) %>%
       tab_style(
         style = list(
@@ -567,7 +574,7 @@ server <- function(input, output, session) {
           cell_fill(color = "pink")
         ),
         locations = cells_body(
-          columns = vars(current_Cost),
+          columns = c(current_Cost),
           rows = c(5)
         )
       ) %>%
@@ -576,7 +583,7 @@ server <- function(input, output, session) {
           cell_fill(color = "lightgreen")
         ),
         locations = cells_body(
-          columns = vars(future_Cost),
+          columns = c(future_Cost),
           rows = c(5)
         )
       ) %>%
@@ -920,7 +927,7 @@ server <- function(input, output, session) {
           cell_fill(color = "pink")
         ),
         locations = cells_body(
-          columns = vars(current_Consumption),
+          columns = c(current_Consumption),
           rows = c(3)
         )
       ) %>%
@@ -929,7 +936,7 @@ server <- function(input, output, session) {
           cell_fill(color = "pink")
         ),
         locations = cells_body(
-          columns = vars(new_Consumption),
+          columns = c(new_Consumption),
           rows = c(3)
         )
       ) %>%
