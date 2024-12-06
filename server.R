@@ -2,7 +2,6 @@
 if (!require("gt") || packageVersion("gt") < "0.3.0") {
   install.packages("gt")
 }
-
 # Load libraries
 library(shiny)
 library(DT)
