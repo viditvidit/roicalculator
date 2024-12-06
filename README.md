@@ -24,6 +24,39 @@ It will then calculate the man hours saved and its equivalent cost savings, as w
 #### 4. Run the Shiny App
   * Run the app by executing the following command in the RStudio console:
      `shiny::runApp()`
+## Branching and Pull Request Guidelines
+### 1. Create a Unique Feature Branch:
+- Always create a new branch for your feature or bug fix.
+- Use a descriptive name like `username/feature-name`
+  ```
+  git checkout -b yourname/feature-description
+  ```
+### 2. Sync Your Branch with main Regularly:
+- Fetch the latest changes and rebase your branch before creating or updating a PR:
+  ```
+  git fetch origin
+  git rebase origin/main
+  ```
+### 3. Submit a Pull Request:
+- Push your feature branch and open a pull request against the `main` branch:
+```
+git push origin yourname/feature-description
+```
+
+### 4. Resolve Comments and Conflicts:
+- Address all comments and resolve conflicts before the PR is approved.
+
+### 5. Approval Process:
+- Only PRs approved by _Sanjay Mehrotra_ or _Bhargav Kowshik_ will be merged.
+
+### 6. Avoid Direct Pushes to main:
+- Direct pushes to main are prohibited. All changes must go through a PR.
+
+
+
+
+
+
 ## Contact
 For support or further information, please contact:
 
