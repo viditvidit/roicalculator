@@ -28,9 +28,22 @@ server <- function(input, output, session) {
   
   # values-reactive Values relevant across all calculations put in a reactive for easier access
   values <- reactive({
-    req(all(!is.null(c(input$hemm_count, input$hemm_daily_consump, input$truck_count, input$logger_count_per_bowser)))) 
-    #checking input to prevent crashes
-    req(!is.null(input$shift_count), input$shift_count != 0)
+  # Fallback logic if values are missing
+  shift_count <- ifelse(is.null(input$shift_count) || input$shift_count <= 0, 1, input$shift_count)
+  hemm_count <- ifelse(is.null(input$hemm_count) || input$hemm_count <= 0, 1, input$hemm_count)
+  fuel_consumption <- ifelse(is.null(input$hemm_daily_consump) || input$hemm_daily_consump <= 0, 100, input$hemm_daily_consump)
+  truck_count <- ifelse(is.null(input$truck_count) || input$truck_count <= 0, 1, input$truck_count)
+  logger_count <- ifelse(is.null(input$logger_count_per_bowser) || input$logger_count_per_bowser <= 0, 1, input$logger_count_per_bowser)
+
+  # validation message for input values
+  validate(
+    need(input$shift_count > 0, "Please enter a positive number for Shift Count."),
+    need(input$hemm_count > 0, "Please enter a positive number for Number of HEMM."),
+    need(input$hemm_daily_consump > 0, "Please enter a positive number for HEMM Fuel Consumption/Day."),
+    need(input$truck_count > 0, "Please enter a positive number for Number of Trucks."),
+    need(input$logger_count_per_bowser > 0, "Please enter a positive number for Number of Loggers per Bowser.")
+    )
+
 
     # these variables are out since they are being used for calculation in data frame
     # data frame scope prevents creation and usage in the same scope hence outside creation
