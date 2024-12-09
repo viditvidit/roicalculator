@@ -32,7 +32,12 @@ It will then calculate the man hours saved and its equivalent cost savings, as w
   git checkout -b yourname/feature-description
   ```
 ### 2. Sync Your Branch with main Regularly:
-- Fetch the latest changes and rebase your branch before creating or updating a PR:
+- Use the `Sync fork` button provided on Github before making any changes.
+
+<img width="1440" alt="Screenshot 2024-12-09 at 10 03 28 AM" src="https://github.com/user-attachments/assets/5998c1eb-b2cd-43fc-9c61-0c51be9884e9">
+
+
+- Alternatively, from the command line fetch latest changes and rebase your branch before creating or updating a PR:
   ```
   git fetch origin
   git rebase origin/main
