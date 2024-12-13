@@ -627,20 +627,22 @@ server <- function(input, output, session) {
     data <- data.frame(cost.df()$Titles, cost.df()$Cost, cost.df()$Saved)
     colnames(data) <- c("Category","Metrics","saved_value")
     
-    middle_pos = cost.df()$Saved/2
+    middle_pos = data$saved_value / 2 
     
+    # Create the ggplot for Side-by-Side Bars
+    # Create bar plot using ggplot2
+    # Create bar plot using ggplot2
     gg <- ggplot(data) +
-      geom_bar(aes(x = Category, y = Metrics, fill="original",text=orig_explanation), stat = "identity", position="dodge") +
-      geom_bar(aes(x = Category, y = saved_value, fill="saved",text=saved_explanation), stat = "identity", position="dodge") +
-      geom_text(aes(x = Category, y = middle_pos, label = paste("₹",format_indian(saved_value))), vjust = 0, size = 4,color="white") +
-      geom_text(aes(x= Category, y = 0.8*cost.df()$Cost, label = paste("₹",format_indian(Metrics))), vjust=0, size = 3.5,color="white") +
+      geom_bar(aes(x = Category, y = Metrics, fill="original"), stat = "identity", position = position_dodge(width = 0.8)) +
+      geom_bar(aes(x = Category, y = saved_value, fill="saved"), stat = "identity", position = position_dodge(width = 0.8), width = 0.6) +
+      geom_text(aes(x = Category, y = middle_pos, label = paste("₹", format_indian(saved_value))), vjust = 0, size = 4, color="white") +
+      geom_text(aes(x = Category, y = 0.8*cost.df()$Cost, label = paste("₹", format_indian(Metrics))), vjust = 0, size = 3.5, color="white") +
       scale_fill_manual(values = c("original" = "blue", "saved" = "orange")) +
-      labs(fill = "Saving Comparisions") +
+      labs(fill = "Saving Comparisons") +
       theme(legend.position = "none")
     
     # Convert ggplot object to plotly for interactive plots
     p_plotly <- ggplotly(gg, tooltip = "text")
-    
     return(p_plotly)
   })
   
@@ -749,19 +751,21 @@ server <- function(input, output, session) {
     )
     
     # Create bar plot using ggplot2
+    # Assuming 'data' is already prepared
     p <- ggplot(data) +
-      geom_bar(aes(x=Category, y=original, fill="saved_col", text=orig_explanation),stat = "identity",position = "dodge") +
-      # geom_bar(aes(x=Category, y=saved, fill="saved_col", text=saved_explanation),stat = "identity",position = "dodge",width=0.8) +
-      geom_text(aes(x=Category, y=saved/2, label=format_indian(saved)), vjust=0,size=5,color="white") +
-      scale_fill_manual(values = c("original_col" = "blue", "saved_col" = "orange")) +
-      labs(fill = "Saving Comparisions") +
+      geom_bar(aes(x=Category, y=saved_value, fill="saved_col"), stat = "identity", position = "dodge") +
+      geom_text(aes(x=Category, y=saved_value/2, label=format_indian(saved_value)), vjust=0, size=5, color="white") +
+      scale_fill_manual(values = c("saved_col" = "orange")) +
+      labs(fill = "Saving Comparisons") +
       theme(legend.position = "none")
-    
+
+
     
     # Convert ggplot object to plotly for interactive plots
     p_plotly <- ggplotly(p, tooltip = c("x", "text"))
-    
+
     return(p_plotly)
+
   })
   
   output$pilferage_explanation <- renderText({
@@ -1009,12 +1013,12 @@ server <- function(input, output, session) {
     )
     
     gg <- ggplot(data, aes(y = title, x = value, fill = type, text=explanation)) +
-      geom_bar(stat = "identity", position = position_dodge(width = 1)) +
-      geom_text(aes(x=value/2,label = format_indian(value)),
-                position = position_dodge(width = 1),
-                vjust = 0.5, hjust = -0.3, size = 5,color="white") +
+      geom_bar(stat = "identity", position = position_dodge(width = 0.8), width = 0.6) +
+      geom_text(aes(x=value/2, label = format_indian(value)),
+                position = position_dodge(width = 0.8),
+                vjust = 0.5, hjust = -0.3, size = 5, color="white") +
       scale_fill_manual(values = c("Original" = "blue", "Saved" = "orange")) +
-      labs(fill = "Saving Comparisons",x="Litres Consumed /HEMM/Day",y="Comparision Before After") +
+      labs(fill = "Saving Comparisons", x="Litres Consumed /HEMM/Day", y="Comparison Before After") +
       theme(legend.position = "none") +
       coord_flip()
     
