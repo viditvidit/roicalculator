@@ -1135,4 +1135,184 @@ server <- function(input, output, session) {
     fig
   })
   
+  # Cost Benefit Analysis calculations
+  cost_benefit_data <- reactive({
+    # Validate required inputs with more specific checks
+    req(input$digitization_cost, input$hemm_count, input$capex_cost)
+    validate(
+      need(input$hemm_count > 0 && !is.na(input$hemm_count), "Please enter a positive number for HEMM count"),
+      need(input$digitization_cost > 0 && !is.na(input$digitization_cost), "Please enter a positive digitization cost"),
+      need(input$capex_cost > 0 && !is.na(input$capex_cost), "Please enter a positive CAPEX cost")
+    )
+    
+    # Calculate total annual benefits with NULL checks
+    mp_savings <- if(!is.null(cost.df()$Saved)) sum(cost.df()$Saved, na.rm = TRUE) else 0
+    pilf_savings <- if(!is.null(pilferage_values()$vol_saved_yearly)) pilferage_values()$vol_saved_yearly * 86 else 0
+    
+    # Add NULL check for idle_total values
+    idle_diff <- if(!is.null(idle_total())) {
+      if(!is.null(idle_total()$idling_all_ldp) && !is.null(idle_total()$idle_mod_all_consump_lpd)) {
+        (idle_total()$idling_all_ldp - idle_total()$idle_mod_all_consump_lpd) * 365 * 86
+      } else {
+        0
+      }
+    } else {
+      0
+    }
+    
+    total_annual_benefit <- sum(mp_savings, pilf_savings, idle_diff, na.rm = TRUE)
+    
+    # Validate calculated values
+    validate(
+      need(!is.na(total_annual_benefit), "Unable to calculate benefits. Please check input values."),
+      need(is.finite(total_annual_benefit), "Benefit calculation resulted in an invalid value."),
+      need(total_annual_benefit >= 0, "Benefits must be non-negative.")
+    )
+    
+    # Calculate costs with validation
+    annual_cost <- as.numeric(input$digitization_cost) * as.numeric(input$hemm_count)
+    capex <- as.numeric(input$capex_cost) * as.numeric(input$hemm_count)
+    
+    validate(
+      need(!is.na(annual_cost) && !is.na(capex), "Error calculating costs. Please check input values."),
+      need(annual_cost >= 0 && capex >= 0, "Costs must be non-negative.")
+    )
+    
+    # Create year-wise data
+    years <- 1:5
+    
+    # Calculate cumulative values with error checking
+    cumulative_costs <- tryCatch({
+      sapply(years, function(year) {
+        if(year == 1) {
+          capex + annual_cost
+        } else {
+          capex + (annual_cost * year)
+        }
+      })
+    }, error = function(e) NULL)
+    
+    cumulative_benefits <- tryCatch({
+      sapply(years, function(year) {
+        total_annual_benefit * year
+      })
+    }, error = function(e) NULL)
+    
+    # Final validation
+    validate(
+      need(!is.null(cumulative_costs), "Error calculating cumulative costs"),
+      need(!is.null(cumulative_benefits), "Error calculating cumulative benefits"),
+      need(!any(is.na(cumulative_costs)), "Invalid values in cost calculations"),
+      need(!any(is.na(cumulative_benefits)), "Invalid values in benefit calculations")
+    )
+    
+    # Return data frame
+    data.frame(
+      Year = years,
+      Costs = cumulative_costs,
+      Benefits = cumulative_benefits,
+      Net_Benefit = cumulative_benefits - cumulative_costs
+    )
+  })
+  
+  # Render the cost-benefit plot
+  output$cost_benefit_plot <- renderPlotly({
+    df <- cost_benefit_data()
+    
+    # Create long format data for plotting
+    df_long <- tidyr::pivot_longer(df, 
+      cols = c("Costs", "Benefits"),
+      names_to = "Type",
+      values_to = "Amount"
+    )
+    
+    # Create safe labels
+    df_long$label <- sapply(df_long$Amount, function(x) {
+      if(is.null(x) || is.na(x)) return("")
+      tryCatch(
+        format_indian(x),
+        error = function(e) as.character(x)
+      )
+    })
+    
+    p <- ggplot(df_long, aes(x = as.factor(Year), y = Amount, fill = Type)) +
+      geom_bar(stat = "identity", position = "dodge", width = 0.7) +
+      geom_text(aes(label = label), 
+                position = position_dodge(width = 0.7),
+                vjust = -0.5,
+                size = 3,
+                na.rm = TRUE) +
+      scale_y_continuous(labels = function(x) {
+        sapply(x, function(val) {
+          if(is.null(val) || is.na(val)) return("")
+          tryCatch(
+            format_indian(val),
+            error = function(e) as.character(val)
+          )
+        })
+      }) +
+      labs(
+        title = "5 Year Cost-Benefit Analysis",
+        y = "Amount (₹)",
+        x = "Year"
+      ) +
+      theme_minimal() +
+      scale_fill_manual(values = c("Costs" = "red", "Benefits" = "green")) +
+      theme(
+        legend.position = "bottom",
+        plot.title = element_text(hjust = 0.5)
+      )
+    
+    ggplotly(p, tooltip = c("x", "y", "fill")) %>%
+      layout(
+        hovermode = "x unified",
+        barmode = "group"
+      )
+  })
+  
+  # Render the cost-benefit table
+  output$cost_benefit_table <- render_gt({
+    df <- cost_benefit_data()
+    
+    gt(df) %>%
+      fmt_number(
+        columns = c("Costs", "Benefits", "Net_Benefit"),
+        decimals = 0,
+        use_seps = TRUE
+      ) %>%
+      tab_header(
+        title = "Year-wise Cost-Benefit Analysis",
+        subtitle = "All amounts in Indian Rupees (₹)"
+      ) %>%
+      cols_label(
+        Year = "Year",
+        Costs = "Cumulative Costs",
+        Benefits = "Cumulative Benefits",
+        Net_Benefit = "Net Benefit"
+      ) %>%
+      tab_style(
+        style = list(
+          cell_text(color = "red")
+        ),
+        locations = cells_body(
+          columns = "Costs"
+        )
+      ) %>%
+      tab_style(
+        style = list(
+          cell_text(color = "green")
+        ),
+        locations = cells_body(
+          columns = "Benefits"
+        )
+      ) %>%
+      tab_style(
+        style = list(
+          cell_text(weight = "bold")
+        ),
+        locations = cells_body(
+          columns = "Net_Benefit"
+        )
+      )
+  })
 }

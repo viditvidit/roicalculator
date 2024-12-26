@@ -417,6 +417,31 @@ ui <- shinyUI(fluidPage(
                         h5("This waterfall chart illustrates the total savings achieved across three key domains: manpower, pilferage, and movement. Each segment of the chart represents the individual contributions of these domains to the overall savings. The cumulative effect is shown by sequentially adding the savings from each domain, culminating in the final bar that presents the total savings amount. This visual representation allows for a clear and concise understanding of the impact each domain has on our cost-saving initiatives, highlighting the areas with the most significant contributions.")
                       )
              ),
+             tabPanel("Cost Benefit Analysis",
+               fluidPage(
+                 h3("Cost of Implementation"),
+                 fluidRow(
+                   column(6,
+                     sliderInput("digitization_cost", 
+                       "Annual Cost of Digitization Solution per HEMM (₹):",
+                       min = 2000, max = 20000, value = 6000),
+                     sliderInput("capex_cost",
+                       "One-time CAPEX Cost per HEMM (₹):",
+                       min = 10000, max = 50000, value = 25000)
+                   ),
+                   column(6,
+                     h4("5 Year Cost-Benefit Analysis"),
+                     plotlyOutput("cost_benefit_plot")
+                   )
+                 ),
+                 fluidRow(
+                   column(12,
+                     h4("Cumulative Analysis"),
+                     gt::gt_output("cost_benefit_table")
+                   )
+                 )
+               )
+             ),
              tabPanel("Corner-Stone Values",
                       fluidPage(
                         fluidRow(column(4,
